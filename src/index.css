@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-hand: "Caveat", cursive;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-ink: #0b0f19;
+  --color-paper: #f3ece0;
+
+  --animate-blink: blink 1s step-end infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-flow: flow 2.4s linear infinite;
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes flow {
+    from {
+      left: 0%;
+    }
+    to {
+      left: 100%;
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Faint grid behind the hero */
+.hero-grid {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+/* Dotted paper for the scrapbook board */
+.board {
+  background-color: var(--color-paper);
+  background-image: radial-gradient(rgb(0 0 0 / 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Strip of masking tape holding a card to the board */
+.tape {
+  position: absolute;
+  top: -0.85rem;
+  left: 50%;
+  width: 6.5rem;
+  height: 1.7rem;
+  translate: -50% 0;
+  rotate: -4deg;
+  background: rgb(255 248 220 / 0.75);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+  backdrop-filter: blur(1px);
+}
