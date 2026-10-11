@@ -1,0 +1,19 @@
+# Copy this file to terraform.tfvars and change what you need.
+# Anything you leave out uses the default from variables.tf.
+
+# Release a new version of the app
+image_tag = "v1"
+
+# Scale the app
+replicas = 3
+
+# Pod CPU and memory
+resources = {
+  requests = { cpu = "50m", memory = "32Mi" }
+  limits   = { cpu = "200m", memory = "128Mi" }
+}
+
+# Probe settings: only list what you want to change
+probes = {
+  liveness = { initial_delay_seconds = 15 }
+}
