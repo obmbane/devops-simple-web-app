@@ -2,6 +2,7 @@ import { motion, useScroll, useSpring } from "motion/react";
 import Hero from "./components/Hero";
 import Marquee from "./components/Marquee";
 import Collage from "./components/Collage";
+import Projects from "./components/Projects";
 import Pipeline from "./components/Pipeline";
 import Footer from "./components/Footer";
 
@@ -20,6 +21,7 @@ export default function App() {
       <Marquee />
       <main>
         <Collage />
+        <Projects />
         <Pipeline />
       </main>
       <Footer />

@@ -11,6 +11,8 @@ import {
   SiTerraform,
   SiVite,
 } from "react-icons/si";
+import tillyLogo from "./assets/projects/tilly.webp";
+import orbitLogo from "./assets/projects/orbit.webp";
 
 // Each chapter becomes a polaroid on the scrapbook board.
 // Edit the text to tell the journey in your own words.
@@ -133,6 +135,43 @@ export const stack = [
   { name: "React", icon: SiReact },
   { name: "Vite", icon: SiVite },
   { name: "Tailwind CSS", icon: SiTailwindcss },
+];
+
+// Cards in the Projects section.
+// tone picks the status badge colour: "amber" (not released) or "sky" (prototype).
+export const projects = [
+  {
+    name: "Tilly",
+    category: "Mobile app · Personal finance",
+    summary: "A spend tracking app that turns your receipts into budgets and spending insights.",
+    status: "Android APK · not on the store yet",
+    tone: "amber",
+    logo: tillyLogo,
+    logoFit: "contain",
+    panel: "bg-gradient-to-br from-white to-lime-50",
+    features: [
+      "Scan or upload receipts, with items extracted automatically",
+      "Budgets and spending insights",
+      "Split bills with friends",
+    ],
+    stack: ["React Native", "Expo", "TypeScript", "Supabase", "NativeWind", "Zustand"],
+  },
+  {
+    name: "Orbit",
+    category: "B2B SaaS · Product management",
+    summary: "Helps product managers run a product across its whole lifecycle, from first idea to retirement.",
+    status: "UI prototype · backend next",
+    tone: "sky",
+    logo: orbitLogo,
+    logoFit: "cover",
+    panel: "bg-[#0b1020]",
+    features: [
+      "Product development: idea → business case → launch",
+      "Product maturity: introduction → growth → retirement",
+      "Governance: decisions and the evidence behind them",
+    ],
+    stack: ["React", "TypeScript", "Vite", "React Router"],
+  },
 ];
 
 export const repoUrl = "https://github.com/obmbane/devops-simple-web-app";
