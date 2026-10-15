@@ -1,2 +1,9 @@
 node_modules/
 dist/
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+# kubeconfig with cluster credentials, written by the kind provider
+terraform/cluster/*-config
