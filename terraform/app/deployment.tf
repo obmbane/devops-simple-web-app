@@ -95,6 +95,16 @@ resource "kubernetes_deployment_v1" "app" {
             failure_threshold     = var.probes.liveness.failure_threshold
           }
 
+          # Keep serving for a few seconds after deletion starts, so every node
+          # stops routing to this pod before nginx is told to stop
+          lifecycle {
+            pre_stop {
+              exec {
+                command = ["sleep", "5"]
+              }
+            }
+          }
+
           # Mount the ConfigMap over the image's /etc/nginx/conf.d
           volume_mount {
             name       = "nginx-config"
