@@ -1,41 +1,36 @@
-# ---- Read by ../app to connect to the cluster ----
-
-output "endpoint" {
-  description = "Kubernetes API server address"
-  value       = kind_cluster.this.endpoint
-}
-
-output "cluster_ca_certificate" {
-  description = "CA certificate used to trust the API server"
-  value       = kind_cluster.this.cluster_ca_certificate
-  sensitive   = true
-}
-
 output "client_certificate" {
-  description = "Client certificate for the cluster admin user"
+  type        = string
+  description = "Client certificate of the cluster's admin user. Used with client_key to authenticate to the API server."
   value       = kind_cluster.this.client_certificate
-  sensitive   = true
 }
 
 output "client_key" {
-  description = "Private key for the cluster admin user"
+  type        = string
+  description = "Private key of the cluster's admin user. Hidden in CLI output, but stored in plain text in state."
   value       = kind_cluster.this.client_key
   sensitive   = true
 }
 
-output "node_port" {
-  description = "NodePort mapped to your machine. The app's Service must use this port."
-  value       = var.node_port
+output "cluster_ca_certificate" {
+  type        = string
+  description = "CA certificate used to verify the API server's identity."
+  value       = kind_cluster.this.cluster_ca_certificate
 }
 
-# ---- For you ----
+output "endpoint" {
+  type        = string
+  description = "Address of the Kubernetes API server."
+  value       = kind_cluster.this.endpoint
+}
 
 output "kube_context" {
-  description = "kubectl context for the cluster"
-  value       = "kind-${kind_cluster.this.name}"
+  type        = string
+  description = "Name of the kubectl context for the cluster (normally kind-<name>)."
+  value       = kind_cluster.this.context_name
 }
 
-output "url" {
-  description = "Where the app will be reachable once ../app is applied"
-  value       = "http://localhost:${var.host_port}"
+output "name" {
+  type        = string
+  description = "Name of the Kind cluster."
+  value       = kind_cluster.this.name
 }

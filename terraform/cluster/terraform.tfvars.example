@@ -1,7 +1,0 @@
-# Copy this file to terraform.tfvars and change what you need.
-# Anything you leave out uses the default from variables.tf.
-# Changing any of these recreates the cluster. Re-apply ../app afterwards.
-
-worker_count = 2
-host_port    = 8080
-node_port    = 30080

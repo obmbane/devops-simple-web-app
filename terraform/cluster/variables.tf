@@ -1,55 +1,32 @@
-variable "cluster_name" {
-  description = "Name of the Kind cluster"
+variable "name" {
   type        = string
+  description = "Name of the Kind cluster. The kubectl context will be kind-<name>."
   default     = "simple-web-app"
-
-  validation {
-    condition     = can(regex("^[a-z0-9]([-a-z0-9]*[a-z0-9])?$", var.cluster_name))
-    error_message = "cluster_name must be lowercase letters, numbers and dashes, starting and ending with a letter or number."
-  }
 }
 
 variable "node_image" {
-  description = "Kind node image (sets the Kubernetes version)"
   type        = string
-  default     = "kindest/node:v1.36.1"
+  description = "Kind node image, which sets the Kubernetes version. Pin it by digest, as the Kind docs recommend."
+  default     = "kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5"
+}
+
+variable "port_mappings" {
+  type = list(object({
+    container_port = number
+    host_port      = number
+    listen_address = optional(string, "127.0.0.1")
+  }))
+  description = "Ports on your machine forwarded to the control-plane node, e.g. to reach a NodePort Service. Bound to 127.0.0.1 unless listen_address is set."
+  default     = []
 }
 
 variable "worker_count" {
-  description = "Number of worker nodes. Changing this recreates the cluster."
   type        = number
+  description = "Number of worker nodes. Changing it recreates the cluster, because Kind can't add nodes to a running cluster."
   default     = 2
 
   validation {
-    condition     = var.worker_count >= 1 && var.worker_count == floor(var.worker_count)
-    error_message = "worker_count must be a whole number of at least 1, or the pods have nowhere to run."
-  }
-}
-
-variable "kubeconfig_path" {
-  description = "Where to write the cluster's kubeconfig. null uses ~/.kube/config"
-  type        = string
-  default     = null
-}
-
-variable "node_port" {
-  description = "NodePort the app's Service will use. The app reads this from this config's outputs."
-  type        = number
-  default     = 30080
-
-  validation {
-    condition     = var.node_port >= 30000 && var.node_port <= 32767
-    error_message = "node_port must be between 30000 and 32767 (the Kubernetes NodePort range)."
-  }
-}
-
-variable "host_port" {
-  description = "Port on your machine mapped to the NodePort"
-  type        = number
-  default     = 8080
-
-  validation {
-    condition     = var.host_port >= 1 && var.host_port <= 65535
-    error_message = "host_port must be between 1 and 65535."
+    condition     = var.worker_count >= 0 && var.worker_count == floor(var.worker_count)
+    error_message = "worker_count must be a whole number of 0 or more."
   }
 }
