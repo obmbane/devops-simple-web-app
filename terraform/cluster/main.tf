@@ -1,28 +1,32 @@
 resource "kind_cluster" "this" {
-  name            = var.cluster_name
-  node_image      = var.node_image
-  kubeconfig_path = var.kubeconfig_path
-  wait_for_ready  = true
+  name           = var.name
+  node_image     = var.node_image
+  wait_for_ready = true
 
   kind_config {
-    # Fixed by Kind's config file format, not settings
     kind        = "Cluster"
     api_version = "kind.x-k8s.io/v1alpha4"
 
     node {
       role = "control-plane"
 
-      # localhost:<host_port> on your machine -> NodePort on this node
-      extra_port_mappings {
-        container_port = var.node_port
-        host_port      = var.host_port
-        protocol       = "TCP"
+      # One extra_port_mappings block per entry in var.port_mappings
+      dynamic "extra_port_mappings" {
+        for_each = var.port_mappings
+
+        content {
+          container_port = extra_port_mappings.value.container_port
+          host_port      = extra_port_mappings.value.host_port
+          listen_address = extra_port_mappings.value.listen_address
+          protocol       = "TCP"
+        }
       }
     }
 
-    # One worker block per worker_count
+    # One worker node block per worker_count
     dynamic "node" {
       for_each = range(var.worker_count)
+
       content {
         role = "worker"
       }
