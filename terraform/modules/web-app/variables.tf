@@ -35,6 +35,21 @@ variable "namespace" {
   description = "Namespace to deploy into. Pass the namespace module's name output, so the app waits for the namespace to exist."
 }
 
+variable "node_port" {
+  type        = number
+  description = "Port opened on every node when service_type is NodePort. Leave null to let Kubernetes allocate one. Must be inside the cluster's NodePort range (default 30000-32767)."
+  default     = null
+
+  validation {
+    condition     = var.node_port == null || (var.node_port >= 30000 && var.node_port <= 32767 && var.node_port == floor(var.node_port))
+    error_message = "node_port must be a whole number from 30000 to 32767."
+  }
+    validation {
+    condition     = var.node_port == null || var.service_type == "NodePort"
+    error_message = "node_port can only be set when service_type is NodePort."
+  }
+}
+
 variable "replicas" {
   type        = number
   description = "Number of pods to run."
@@ -58,4 +73,15 @@ variable "resources" {
     })
   })
   description = "CPU and memory requests and limits for the container, in Kubernetes quantities, e.g. cpu = \"50m\", memory = \"32Mi\"."
+}
+
+variable "service_type" {
+  type        = string
+  description = "Type of the Service. ClusterIP is reachable only inside the cluster; NodePort also opens the same port on every node."
+  default     = "ClusterIP"
+
+  validation {
+    condition     = contains(["ClusterIP", "NodePort"], var.service_type)
+    error_message = "service_type must be ClusterIP or NodePort."
+  }
 }
