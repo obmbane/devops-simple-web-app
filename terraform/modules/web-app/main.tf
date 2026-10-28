@@ -70,13 +70,14 @@ resource "kubernetes_service_v1" "this" {
   }
 
   spec {
-    type     = "ClusterIP"
+    type     = var.service_type
     selector = local.selector_labels
 
     port {
       name        = "http"
       port        = 80
       target_port = "http"
+      node_port = var.node_port
     }
   }
 }
