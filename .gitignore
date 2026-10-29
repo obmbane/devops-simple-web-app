@@ -4,7 +4,6 @@ dist/
 .terraform/
 *.tfstate
 *.tfstate.*
-terraform.tfvars
 # kubeconfig with cluster credentials, written by the kind provider
 terraform/cluster/*-config
 # Claude Code instructions, kept local
