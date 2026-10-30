@@ -37,7 +37,7 @@ resource "kubernetes_cluster_role_v1" "health_checker" {
 
   rule {
     api_groups = [""]
-    resources  = ["pods"]
+    resources  = ["events", "pods", "services"]
     verbs      = ["get", "list", "watch"]
   }
 

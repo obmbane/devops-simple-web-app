@@ -8,3 +8,4 @@ dist/
 terraform/cluster/*-config
 # Claude Code instructions, kept local
 CLAUDE.md
+.venv/
